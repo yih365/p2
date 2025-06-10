@@ -2,7 +2,7 @@ import React from 'react';
 
 const LinkedInIcon = () => (
   <a 
-    href="https://www.linkedin.com" 
+    href="https://www.linkedin.com/in/yiyih123/" 
     target="_blank" 
     rel="noopener noreferrer"
     aria-label="LinkedIn Profile"
