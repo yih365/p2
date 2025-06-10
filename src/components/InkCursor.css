@@ -7,12 +7,18 @@
   mix-blend-mode: difference;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 9999; /* Higher than other elements */
   filter: url("#goo");
   width: 0;
   height: 0;
   overflow: visible;
   opacity: 1;
+  will-change: transform, opacity;
+  transition: transform 0.2s ease-out;
+}
+
+.ink-cursor.hovering {
+  transform: scale(1.5);
 }
 
 .ink-cursor span {
@@ -23,9 +29,17 @@
   border-radius: 50%;
   background-color: white;
   transform-origin: center center;
-  transform: translate(-50%, -50%);
-  will-change: transform;
+  transform: translate(-50%, -50%) scale(1);
+  will-change: transform, background-color;
   pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              background-color 0.3s ease;
+}
+
+.ink-cursor.hovering span {
+  background-color: #0077b5;
+  transform: translate(-50%, -50%) scale(1.2);
+  mix-blend-mode: difference;
 }
 
 /* Hide default cursor */

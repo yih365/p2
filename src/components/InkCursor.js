@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import './InkCursor.css';
 
 const InkCursor = () => {
   const cursorRef = useRef(null);
   const dotsRef = useRef([]);
   const [isVisible, setIsVisible] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   const amount = 20;
   const sineDots = Math.floor(amount * 0.3);
   const width = 26;
@@ -87,6 +88,46 @@ const InkCursor = () => {
     dotsRef.current.forEach(dot => dot.lock());
   };
 
+  // Handle hover state changes
+  const handleHover = useCallback((isHovered) => {
+    setIsHovering(isHovered);
+    if (cursorRef.current) {
+      if (isHovered) {
+        cursorRef.current.classList.add('hovering');
+      } else {
+        cursorRef.current.classList.remove('hovering');
+      }
+    }
+  }, []);
+
+  // Add event listeners for LinkedIn icon hover
+  useEffect(() => {
+    if (isVisible) {
+      const linkedInLinks = document.querySelectorAll('a[href*="linkedin"]');
+      
+      const handleMouseEnter = () => handleHover(true);
+      const handleMouseLeave = () => handleHover(false);
+
+      linkedInLinks.forEach(link => {
+        link.addEventListener('mouseenter', handleMouseEnter);
+        link.addEventListener('mouseleave', handleMouseLeave);
+        link.style.cursor = 'none';
+        link.style.position = 'relative';
+        link.style.zIndex = '999'; // Lower than cursor's z-index
+      });
+
+      return () => {
+        linkedInLinks.forEach(link => {
+          link.removeEventListener('mouseenter', handleMouseEnter);
+          link.removeEventListener('mouseleave', handleMouseLeave);
+          link.style.cursor = '';
+          link.style.position = '';
+          link.style.zIndex = '';
+        });
+      };
+    }
+  }, [isVisible, handleHover]);
+
   const positionCursor = (delta) => {
     let x = mousePosition.x;
     let y = mousePosition.y;
@@ -94,6 +135,14 @@ const InkCursor = () => {
       let nextDot = dots[index + 1] || dots[0];
       dot.x = x;
       dot.y = y;
+      
+      // Apply hover effect
+      if (isHovering) {
+        dot.element.style.mixBlendMode = 'difference';
+      } else {
+        dot.element.style.mixBlendMode = 'normal';
+      }
+      
       dot.draw(delta);
       if (!idle || index <= sineDots) {
         const dx = (nextDot.x - dot.x) * 0.35;

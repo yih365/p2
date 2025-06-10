@@ -70,16 +70,19 @@ body {
 
 .name .letter.hidden {
   opacity: 0;
-  transform: translateY(30px) scale(0.9);
+  transform: translateX(-100%) scale(0.9);
   position: absolute;
   pointer-events: none;
   transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
 }
 
 .name.scrolled .first-letter {
-  animation: floatTogether 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: floatTogether 1s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+             slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   display: inline-block;
   transform-origin: center;
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes floatTogether {
@@ -91,6 +94,17 @@ body {
   }
   100% {
     transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
 }
 
