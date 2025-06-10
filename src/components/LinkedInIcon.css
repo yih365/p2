@@ -1,0 +1,35 @@
+.linkedin-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  color: #000000;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.5s ease-out 0.2s;
+  will-change: transform, opacity;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 4px;
+  padding: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.linkedin-icon.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.linkedin-icon:hover {
+  color: #0077b5;
+  transform: translateY(-2px) scale(1.1);
+}
+
+.linkedin-icon svg {
+  width: 100%;
+  height: 100%;
+}
