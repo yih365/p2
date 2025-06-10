@@ -12,6 +12,7 @@
   width: 0;
   height: 0;
   overflow: visible;
+  opacity: 1;
 }
 
 .ink-cursor span {

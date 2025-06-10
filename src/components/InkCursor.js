@@ -1,15 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './InkCursor.css';
 
 const InkCursor = () => {
   const cursorRef = useRef(null);
   const dotsRef = useRef([]);
+  const [isVisible, setIsVisible] = useState(false);
   const amount = 20;
   const sineDots = Math.floor(amount * 0.3);
   const width = 26;
   const idleTimeout = 150;
   let lastFrame = 0;
-  let mousePosition = { x: 0, y: 0 };
+  let mousePosition = { x: -100, y: -100 }; // Start off-screen
   let timeoutID;
   let idle = false;
 
@@ -25,7 +26,16 @@ const InkCursor = () => {
       this.element = document.createElement("span");
       this.element.style.width = `${width}px`;
       this.element.style.height = `${width}px`;
-      cursorRef.current.appendChild(this.element);
+      this.element.style.position = 'absolute';
+      this.element.style.borderRadius = '50%';
+      this.element.style.backgroundColor = 'white';
+      this.element.style.pointerEvents = 'none';
+      this.element.style.willChange = 'transform';
+      
+      // Only append if cursorRef is available
+      if (cursorRef.current) {
+        cursorRef.current.appendChild(this.element);
+      }
     }
 
     lock() {
@@ -50,6 +60,7 @@ const InkCursor = () => {
 
 
   const onMouseMove = (e) => {
+    if (!isVisible) setIsVisible(true);
     mousePosition.x = e.clientX - width / 2;
     mousePosition.y = e.clientY - width / 2;
     resetIdleTimer();
@@ -101,33 +112,53 @@ const InkCursor = () => {
   };
 
   useEffect(() => {
-    // Create dots
-    const dots = [];
-    for (let i = 0; i < amount; i++) {
-      dots.push(new Dot(i));
+    // Only initialize cursor after first mouse move
+    if (isVisible && cursorRef.current) {
+      // Create dots
+      const dots = [];
+      for (let i = 0; i < amount; i++) {
+        dots.push(new Dot(i));
+      }
+      dotsRef.current = dots;
+      lastFrame = performance.now();
+      
+      // Start animation
+      requestAnimationFrame(render);
+      
+      // Add event listeners
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('touchmove', onTouchMove);
+      
+      // Initial position at center of screen
+      mousePosition = { 
+        x: window.innerWidth / 2, 
+        y: window.innerHeight / 2 
+      };
+      
+      return () => {
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('touchmove', onTouchMove);
+      };
     }
-    dotsRef.current = dots;
-    lastFrame = performance.now();
-    
-    // Start animation
-    requestAnimationFrame(render);
-    
-    // Add event listeners
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('touchmove', onTouchMove);
-    
-    // Initial position
-    mousePosition = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-    
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('touchmove', onTouchMove);
-    };
-  }, []);
+  }, [isVisible]);
+
+  // Don't render cursor dots until first mouse move
+  if (!isVisible) {
+    return (
+      <div 
+        onMouseMove={() => setIsVisible(true)}
+        style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1000 }}
+      />
+    );
+  }
 
   return (
     <>
-      <div id="cursor" ref={cursorRef} className="ink-cursor"></div>
+      <div 
+        id="cursor" 
+        ref={cursorRef} 
+        className="ink-cursor"
+      ></div>
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style={{ display: 'none' }}>
         <defs>
           <filter id="goo">
