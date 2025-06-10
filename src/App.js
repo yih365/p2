@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import LinkedInIcon from './components/LinkedInIcon';
+import InkCursor from './components/InkCursor';
 
 function App() {
   const [scrollY, setScrollY] = useState(0);
@@ -25,38 +26,41 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-      <div className="content">
-        <h1 className={`name ${scrollY > 100 ? 'scrolled' : ''}`}>
-          {words.map((word, wordIndex) => {
-            const letters = word.split('');
-            return (
-              <span key={wordIndex} className="word">
-                {letters.map((letter, letterIndex) => {
-                  const isFirstLetter = letterIndex === 0;
-                  const shouldShow = isFirstLetter || scrollY < 50;
-                  return (
-                    <span 
-                      key={letterIndex} 
-                      className={`letter ${!shouldShow ? 'hidden' : ''} ${isFirstLetter ? 'first-letter' : ''}`}
-                    >
-                      {letter}
-                    </span>
-                  );
-                })}
-                {wordIndex < words.length - 1 && ' '}
-              </span>
-            );
-          })}
-        </h1>
-        <div className={`linkedin-container ${scrollY > 50 ? 'visible' : ''}`}>
-          <LinkedInIcon />
-        </div>
-        <div className="scroll-indicator">
-          <div className="scroll-line"></div>
+    <>
+      <InkCursor />
+      <div className="app">
+        <div className="content">
+          <h1 className={`name ${scrollY > 100 ? 'scrolled' : ''}`}>
+            {words.map((word, wordIndex) => {
+              const letters = word.split('');
+              return (
+                <span key={wordIndex} className="word">
+                  {letters.map((letter, letterIndex) => {
+                    const isFirstLetter = letterIndex === 0;
+                    const shouldShow = isFirstLetter || scrollY < 50;
+                    return (
+                      <span 
+                        key={letterIndex} 
+                        className={`letter ${!shouldShow ? 'hidden' : ''} ${isFirstLetter ? 'first-letter' : ''}`}
+                      >
+                        {letter}
+                      </span>
+                    );
+                  })}
+                  {wordIndex < words.length - 1 && ' '}
+                </span>
+              );
+            })}
+          </h1>
+          <div className={`linkedin-container ${scrollY > 50 ? 'visible' : ''}`}>
+            <LinkedInIcon />
+          </div>
+          <div className="scroll-indicator">
+            <div className="scroll-line"></div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
