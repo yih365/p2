@@ -33,29 +33,8 @@ const RectanglePattern = ({ scrollY }) => {
       imageUrl: '/videoorigami.png',
       link: 'https://arxiv.org/abs/2503.04103v1',
       name: 'VideOrigami',
-      description: 'One-Shot Video Object Segmentation'
+      description: 'Compositional Structures for Human-AI Collaboration'
     });
-
-    // Generate remaining rectangles with placeholder names
-    const projectNames = [
-      'Project Aurora',
-      'Nebula Flow',
-      'Quantum Leap',
-      'Pixel Forge',
-      'Code Canvas'
-    ];
-
-    for (let i = 2; i < count; i++) {
-      rectangles.push({
-        id: i,
-        width: `${Math.floor(Math.random() * 200) + 150}px`,
-        height: '200px',
-        color: i % 3 === 0 ? '#FF6B6B' : i % 2 === 0 ? '#4ECDC4' : '#45B7D1',
-        hasImage: false,
-        name: projectNames[(i - 2) % projectNames.length],
-        description: 'Click to learn more'
-      });
-    }
     
     return rectangles;
   };
