@@ -1,0 +1,174 @@
+.rectangle-pattern {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 0; /* Reduced padding */
+  z-index: 1;
+  pointer-events: auto;
+  background: transparent;
+  opacity: 0;
+  transform: translateY(100vh); /* Start one viewport height down */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  margin-top: -40vh; /* Pull up by 40% of viewport height */
+}
+
+.rectangle-pattern.visible {
+  opacity: 1;
+  transform: translateY(60vh); /* Move up to show 40% of the container */
+}
+
+.pattern-container {
+  width: 85%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.pattern-row {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.pattern-rectangle {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  flex-grow: 1;
+  min-width: 150px;
+  max-width: 100%;
+  position: relative !important;
+  overflow: visible !important;
+  cursor: pointer;
+  border: 2px solid blue !important; /* Add border for visibility */
+  transform: translateZ(0);
+  z-index: 1;
+  /* Ensure the container is a stacking context */
+  isolation: isolate;
+  background-color: rgba(0, 0, 255, 0.1) !important; /* Light blue background for visibility */
+}
+
+.pattern-rectangle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  transform: scale(1);
+  transition: transform 0.6s ease, filter 0.6s ease;
+  z-index: 1;
+}
+
+.pattern-rectangle:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.25);
+  z-index: 2;
+}
+
+.pattern-rectangle:hover::before {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.pattern-rectangle:active {
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* Make cursor larger on hover */
+.pattern-rectangle:hover ~ .ink-cursor {
+  transform: scale(1.5);
+}
+
+/* Rectangle overlay styles */
+/* Debug styles - make overlay always visible for testing */
+.rectangle-overlay {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(255, 0, 0, 0.5) !important; /* Bright red background for visibility */
+  color: white !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 20px !important;
+  text-align: center !important;
+  opacity: 1 !important; /* Force visible */
+  transform: none !important;
+  pointer-events: auto !important;
+  z-index: 9999 !important; /* Very high z-index */
+  border: 2px solid yellow !important; /* Add border for visibility */
+  box-sizing: border-box !important;
+}
+
+.pattern-rectangle:hover .rectangle-overlay {
+  opacity: 1 !important; /* Force override any other styles */
+  transform: translateY(0) !important;
+  visibility: visible !important;
+}
+
+.project-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.project-description {
+  font-size: 0.9rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 90%;
+  line-height: 1.4;
+}
+
+/* Ensure image fills the container */
+.pattern-rectangle[style*="background-image"] {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 0.9; /* More visible for content */
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pattern-container {
+    width: 90%;
+  }
+  
+  .pattern-row {
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .pattern-rectangle {
+    height: 150px !important;
+  }
+  
+  .pattern-row {
+    margin-bottom: 1.5rem;
+  }
+}

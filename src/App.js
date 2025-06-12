@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import LinkedInIcon from './components/LinkedInIcon';
 import InkCursor from './components/InkCursor';
+import RectanglePattern from './components/RectanglePattern';
 
 function App() {
   const [scrollY, setScrollY] = useState(0);
@@ -58,6 +59,7 @@ function App() {
           <div className="scroll-indicator">
             <div className="scroll-line"></div>
           </div>
+          <RectanglePattern scrollY={scrollY} />
         </div>
       </div>
     </>
