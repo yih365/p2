@@ -23,26 +23,36 @@ const RectanglePattern = ({ scrollY }) => {
       description: 'AI-Powered Immersive Experiences'
     });
     
+    // Second rectangle - VideOrigami
+    rectangles.push({
+      id: 1,
+      width: '300px',
+      height: '300px',
+      color: '#FFFFFF',
+      hasImage: true,
+      imageUrl: '/videoorigami.png',
+      link: 'https://arxiv.org/abs/2503.04103v1',
+      name: 'VideOrigami',
+      description: 'One-Shot Video Object Segmentation'
+    });
+
     // Generate remaining rectangles with placeholder names
     const projectNames = [
       'Project Aurora',
       'Nebula Flow',
       'Quantum Leap',
       'Pixel Forge',
-      'Code Canvas',
-      'Data Stream',
-      'Cloud Nest',
-      'Vector Flow'
+      'Code Canvas'
     ];
 
-    for (let i = 1; i < count; i++) {
+    for (let i = 2; i < count; i++) {
       rectangles.push({
         id: i,
         width: `${Math.floor(Math.random() * 200) + 150}px`,
         height: '200px',
         color: i % 3 === 0 ? '#FF6B6B' : i % 2 === 0 ? '#4ECDC4' : '#45B7D1',
         hasImage: false,
-        name: projectNames[(i - 1) % projectNames.length],
+        name: projectNames[(i - 2) % projectNames.length],
         description: 'Click to learn more'
       });
     }
