@@ -47,7 +47,7 @@ const ProjectModal = ({ project, onClose, originRect }) => {
   );
 };
 
-const RectanglePattern = ({ scrollY }) => {
+const RectanglePattern = ({ scrollY, onRectangleHover }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [originRect, setOriginRect] = useState(null);
@@ -163,15 +163,18 @@ const RectanglePattern = ({ scrollY }) => {
         {rows.map((row, rowIndex) => (
           <div key={rowIndex} className="pattern-row">
             {row.map(rect => (
-              <div 
+              <div
                 key={rect.id}
                 ref={el => rectRefs.current[rect.id] = el}
-                className={`pattern-rectangle ${selectedProject?.id === rect.id ? 'expanding' : ''}`}
+                className="pattern-rectangle"
+                onMouseEnter={() => onRectangleHover && onRectangleHover(true)}
+                onMouseLeave={() => onRectangleHover && onRectangleHover(false)}
                 style={{
                   width: rect.width,
                   height: rect.height,
                   backgroundColor: rect.color,
-                  ...(rect.hasImage && { 
+                  cursor: 'none', // Ensure default cursor is hidden
+                  ...(rect.hasImage && {
                     backgroundImage: `url(${rect.imageUrl})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center'

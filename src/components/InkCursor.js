@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import './InkCursor.css';
 
-const InkCursor = () => {
+const InkCursor = ({ className = '' }) => {
   const cursorRef = useRef(null);
   const dotsRef = useRef([]);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true); // Start visible by default
   const [isHovering, setIsHovering] = useState(false);
   const amount = 20;
   const sineDots = Math.floor(amount * 0.3);
@@ -191,23 +191,26 @@ const InkCursor = () => {
     }
   }, [isVisible]);
 
-  // Don't render cursor dots until first mouse move
-  if (!isVisible) {
-    return (
-      <div 
-        onMouseMove={() => setIsVisible(true)}
-        style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1000 }}
-      />
-    );
-  }
+  // Initialize cursor visibility on first render
+  useEffect(() => {
+    const handleMouseMove = () => {
+      if (!isVisible) {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [isVisible]);
 
   return (
     <>
       <div 
         id="cursor" 
         ref={cursorRef} 
-        className="ink-cursor"
-      ></div>
+        className={`ink-cursor ${isVisible ? 'visible' : ''} ${isHovering ? 'hovering' : ''} ${className}`}
+        aria-hidden="true"
+      />
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style={{ display: 'none' }}>
         <defs>
           <filter id="goo">

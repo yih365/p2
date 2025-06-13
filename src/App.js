@@ -8,6 +8,7 @@ import { FaChevronDown } from 'react-icons/fa';
 
 function App() {
   const [scrollY, setScrollY] = useState(0);
+  const [isRectangleHovered, setIsRectangleHovered] = useState(false);
   const name = 'YIYI HUANG';
   const words = name.split(' ');
 
@@ -43,7 +44,7 @@ function App() {
   
   return (
     <>
-      <InkCursor />
+      <InkCursor className={isRectangleHovered ? 'rectangle-hover' : ''} />
       {/* Scroll indicator */}
       <div 
         className={`scroll-indicator ${scrollY > 150 ? 'hidden' : ''}`}
@@ -141,7 +142,10 @@ function App() {
           <div className="scroll-indicator">
             <div className="scroll-line"></div>
           </div>
-          <RectanglePattern scrollY={scrollY} />
+          <RectanglePattern 
+            scrollY={scrollY} 
+            onRectangleHover={setIsRectangleHovered} 
+          />
         </div>
       </div>
     </>
