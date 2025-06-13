@@ -7,7 +7,7 @@
   mix-blend-mode: difference;
   top: 0;
   left: 0;
-  z-index: 9999; /* Higher than other elements */
+  z-index: 99999; /* Higher than other elements */
   filter: url("#goo");
   width: 0;
   height: 0;

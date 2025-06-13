@@ -3,9 +3,13 @@ import './RectanglePattern.css';
 
 const ProjectModal = ({ project, onClose, originRect }) => {
   if (!project) return null;
-  
-  // Log the project data for debugging
-  console.log('Rendering project modal with:', project);
+
+  // Determine button text based on project name
+  const getButtonText = () => {
+    if (project.name.toLowerCase().includes('aimmerse')) return 'See web app';
+    if (project.name.toLowerCase().includes('videorigami')) return 'See paper';
+    return 'View Project';
+  };
 
   return (
     <div className={`project-modal-overlay ${project ? 'visible' : ''}`} onClick={onClose}>
@@ -21,19 +25,20 @@ const ProjectModal = ({ project, onClose, originRect }) => {
       >
         <div className="project-modal-content">
           <div className="project-modal-details">
-            {project.name && <h2>{project.name}</h2>}
-            {project.description && <p className="project-modal-description">{project.description}</p>}
-            {project.details && <div className="project-modal-more">{project.details}</div>}
+            {project.name && <h1 className="project-title">{project.name}</h1>}
+            {project.description && <p className="project-caption">{project.description}</p>}
             {project.link && (
-              <a 
-                href={project.link} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="project-link"
-                onClick={e => e.stopPropagation()}
-              >
-                View Project
-              </a>
+              <div className="project-actions">
+                <a 
+                  href={project.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="project-link"
+                  onClick={e => e.stopPropagation()}
+                >
+                  {getButtonText()}
+                </a>
+              </div>
             )}
           </div>
         </div>
