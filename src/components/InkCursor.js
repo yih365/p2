@@ -4,8 +4,9 @@ import './InkCursor.css';
 const InkCursor = ({ className = '' }) => {
   const cursorRef = useRef(null);
   const dotsRef = useRef([]);
-  const [isVisible, setIsVisible] = useState(true); // Start visible by default
+  const [isVisible, setIsVisible] = useState(false); // Start hidden by default
   const [isHovering, setIsHovering] = useState(false);
+  const [hasMoved, setHasMoved] = useState(false);
   const amount = 20;
   const sineDots = Math.floor(amount * 0.3);
   const width = 26;
@@ -61,7 +62,10 @@ const InkCursor = ({ className = '' }) => {
 
 
   const onMouseMove = (e) => {
-    if (!isVisible) setIsVisible(true);
+    if (!hasMoved) {
+      setHasMoved(true);
+      setIsVisible(true);
+    }
     mousePosition.x = e.clientX - width / 2;
     mousePosition.y = e.clientY - width / 2;
     resetIdleTimer();

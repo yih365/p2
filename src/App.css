@@ -20,6 +20,7 @@ html, body, #root, .app {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding: 2rem;
 }
 
 .content {
@@ -31,7 +32,7 @@ html, body, #root, .app {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  /* padding: 2rem; */
 }
 
 /* Base styles */
@@ -59,6 +60,8 @@ body {
   display: inline-block;
   white-space: nowrap;
   margin: 0 0.2em;
+  position: relative;
+  vertical-align: top;
 }
 
 .name .letter {
@@ -66,18 +69,23 @@ body {
   transform-origin: center;
   will-change: transform, opacity;
   position: relative;
-  transition: none; /* Let React handle the transitions */
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+  white-space: pre;
+  vertical-align: top;
+}
+
+.name .letter.none {
+  display: none;
+  /* transition: all 1s cubic-bezier(0.22, 1, 0.36, 1); */
 }
 
 .name .letter.hidden {
   opacity: 0;
   transform: scale(0.9);
-  position: absolute;
+  position: relative;
   pointer-events: none;
   margin: 0 !important;
-  left: 0;
-  right: 0;
-  text-align: center;
+  visibility: hidden;
   transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -123,8 +131,6 @@ body {
   -webkit-text-fill-color: initial;
   color: inherit;
 }
-
-/* Removed initials styles */
 
 /* LinkedIn Container Styles */
 .linkedin-container {
