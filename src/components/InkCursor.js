@@ -159,12 +159,12 @@ const InkCursor = ({isRectHover}) => {
       
       // Add event listeners
       window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('touchmove', onTouchMove);
+      // window.addEventListener('touchmove', onTouchMove);
     
       
       return () => {
         window.removeEventListener('mousemove', onMouseMove);
-        window.removeEventListener('touchmove', onTouchMove);
+        // window.removeEventListener('touchmove', onTouchMove);
       };
     }
   }, [isVisible]);
@@ -174,7 +174,7 @@ const InkCursor = ({isRectHover}) => {
     return (
       <div 
       onMouseMove={onMouseMove}
-      onTouchMove={onTouchMove}
+      // onTouchMove={onTouchMove}
         style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1000 }}
       />
     );
