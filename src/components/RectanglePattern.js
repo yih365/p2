@@ -167,8 +167,8 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
                 key={rect.id}
                 ref={el => rectRefs.current[rect.id] = el}
                 className="pattern-rectangle"
-                onMouseEnter={() => onRectangleHover && onRectangleHover(true)}
-                onMouseLeave={() => onRectangleHover && onRectangleHover(false)}
+                onMouseEnter={() => {onRectangleHover && onRectangleHover(true); console.log('Rectangle hover');}}
+                onMouseLeave={() => {onRectangleHover && onRectangleHover(false); console.log("rectangle unhovered")}}
                 style={{
                   width: rect.width,
                   height: rect.height,

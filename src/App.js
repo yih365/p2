@@ -163,9 +163,10 @@ function App() {
     if (el) letterRefs.current.H = el;
   }, []);
 
+  console.log("isRectangleHovered", isRectangleHovered);
   return (
     <>
-      <InkCursor className={isRectangleHovered ? 'rectangle-hover' : ''} />
+      <InkCursor isRectHover={isRectangleHovered} className={isRectangleHovered ? 'rectangle-hover' : ''} />
       {/* Scroll indicator */}
       <div 
         className={`scroll-indicator ${scrollY > 150 ? 'hidden' : ''} ${scrollY > moveToCornerPos ? 'none' : ''}`}

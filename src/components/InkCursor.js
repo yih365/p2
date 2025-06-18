@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import './InkCursor.css';
 
-const InkCursor = ({ className = '' }) => {
+const InkCursor = ({isRectHover}) => {
   const cursorRef = useRef(null);
   const dotsRef = useRef([]);
-  const [isVisible, setIsVisible] = useState(false); // Start hidden by default
+  const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
-  const [hasMoved, setHasMoved] = useState(false);
+  const isRectHoverRef = useRef(isRectHover);
   const amount = 20;
   const sineDots = Math.floor(amount * 0.3);
   const width = 26;
@@ -16,12 +16,17 @@ const InkCursor = ({ className = '' }) => {
   let timeoutID;
   let idle = false;
 
+  useEffect(() => {
+    isRectHoverRef.current = isRectHover;
+  }, [isRectHover]);
+
   class Dot {
     constructor(index = 0) {
       this.index = index;
       this.anglespeed = 0.05;
-      this.x = 0;
-      this.y = 0;
+      this.x = mousePosition.x;
+      this.y = mousePosition.y;
+      // console.log("initializing with ", this.x, this.y);
       this.scale = 1 - 0.05 * index;
       this.range = width / 2 - (width / 2) * this.scale + 2;
       this.limit = width * 0.75 * this.scale;
@@ -33,6 +38,9 @@ const InkCursor = ({ className = '' }) => {
       this.element.style.backgroundColor = 'white';
       this.element.style.pointerEvents = 'none';
       this.element.style.willChange = 'transform';
+
+      // this.element.style.opacity = '0'; // Start fully transparent
+      // this.element.style.transition = 'opacity 0.3s ease';
       
       // Only append if cursorRef is available
       if (cursorRef.current) {
@@ -62,12 +70,11 @@ const InkCursor = ({ className = '' }) => {
 
 
   const onMouseMove = (e) => {
-    if (!hasMoved) {
-      setHasMoved(true);
-      setIsVisible(true);
-    }
     mousePosition.x = e.clientX - width / 2;
     mousePosition.y = e.clientY - width / 2;
+    if (!isVisible) {
+      setIsVisible(true);
+    }
     resetIdleTimer();
   };
 
@@ -105,36 +112,37 @@ const InkCursor = ({ className = '' }) => {
   }, []);
 
   // Add event listeners for LinkedIn icon hover
-  useEffect(() => {
-    if (isVisible) {
-      const linkedInLinks = document.querySelectorAll('a[href*="linkedin"]');
+  // useEffect(() => {
+  //   if (isVisible) {
+  //     const linkedInLinks = document.querySelectorAll('a[href*="linkedin"]');
       
-      const handleMouseEnter = () => handleHover(true);
-      const handleMouseLeave = () => handleHover(false);
+  //     const handleMouseEnter = () => handleHover(true);
+  //     const handleMouseLeave = () => handleHover(false);
 
-      linkedInLinks.forEach(link => {
-        link.addEventListener('mouseenter', handleMouseEnter);
-        link.addEventListener('mouseleave', handleMouseLeave);
-        link.style.cursor = 'none';
-        link.style.position = 'relative';
-        link.style.zIndex = '999'; // Lower than cursor's z-index
-      });
+  //     linkedInLinks.forEach(link => {
+  //       link.addEventListener('mouseenter', handleMouseEnter);
+  //       link.addEventListener('mouseleave', handleMouseLeave);
+  //       link.style.cursor = 'none';
+  //       link.style.position = 'relative';
+  //       link.style.zIndex = '999'; // Lower than cursor's z-index
+  //     });
 
-      return () => {
-        linkedInLinks.forEach(link => {
-          link.removeEventListener('mouseenter', handleMouseEnter);
-          link.removeEventListener('mouseleave', handleMouseLeave);
-          link.style.cursor = '';
-          link.style.position = '';
-          link.style.zIndex = '';
-        });
-      };
-    }
-  }, [isVisible, handleHover]);
+  //     return () => {
+  //       linkedInLinks.forEach(link => {
+  //         link.removeEventListener('mouseenter', handleMouseEnter);
+  //         link.removeEventListener('mouseleave', handleMouseLeave);
+  //         link.style.cursor = '';
+  //         link.style.position = '';
+  //         link.style.zIndex = '';
+  //       });
+  //     };
+  //   }
+  // }, [isVisible, handleHover]);
 
   const positionCursor = (delta) => {
     let x = mousePosition.x;
     let y = mousePosition.y;
+    // console.log(x, y);
     dotsRef.current.forEach((dot, index, dots) => {
       let nextDot = dots[index + 1] || dots[0];
       dot.x = x;
@@ -148,7 +156,8 @@ const InkCursor = ({ className = '' }) => {
       }
       
       dot.draw(delta);
-      if (!idle || index <= sineDots) {
+      const isRectHovered = isRectHoverRef.current;
+      if (!isRectHovered && !idle || index <= sineDots) {
         const dx = (nextDot.x - dot.x) * 0.35;
         const dy = (nextDot.y - dot.y) * 0.35;
         x += dx;
@@ -181,12 +190,7 @@ const InkCursor = ({ className = '' }) => {
       // Add event listeners
       window.addEventListener('mousemove', onMouseMove);
       window.addEventListener('touchmove', onTouchMove);
-      
-      // Initial position at center of screen
-      mousePosition = { 
-        x: window.innerWidth / 2, 
-        y: window.innerHeight / 2 
-      };
+    
       
       return () => {
         window.removeEventListener('mousemove', onMouseMove);
@@ -195,26 +199,25 @@ const InkCursor = ({ className = '' }) => {
     }
   }, [isVisible]);
 
-  // Initialize cursor visibility on first render
-  useEffect(() => {
-    const handleMouseMove = () => {
-      if (!isVisible) {
-        setIsVisible(true);
-      }
-    };
+  // Don't render cursor dots until first mouse move
+  if (!isVisible) {
+    return (
+      <div 
+      onMouseMove={onMouseMove}
+      onTouchMove={onTouchMove}
+        style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1000 }}
+      />
+    );
+  }
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [isVisible]);
-
+  console.log("isRectHover", isRectHover);
   return (
     <>
       <div 
         id="cursor" 
         ref={cursorRef} 
-        className={`ink-cursor ${isVisible ? 'visible' : ''} ${isHovering ? 'hovering' : ''} ${className}`}
-        aria-hidden="true"
-      />
+        className="ink-cursor"
+      ></div>
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style={{ display: 'none' }}>
         <defs>
           <filter id="goo">
