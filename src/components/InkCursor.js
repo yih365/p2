@@ -26,7 +26,6 @@ const InkCursor = ({isRectHover}) => {
       this.anglespeed = 0.05;
       this.x = mousePosition.x;
       this.y = mousePosition.y;
-      // console.log("initializing with ", this.x, this.y);
       this.scale = 1 - 0.05 * index;
       this.range = width / 2 - (width / 2) * this.scale + 2;
       this.limit = width * 0.75 * this.scale;
@@ -111,38 +110,9 @@ const InkCursor = ({isRectHover}) => {
     }
   }, []);
 
-  // Add event listeners for LinkedIn icon hover
-  // useEffect(() => {
-  //   if (isVisible) {
-  //     const linkedInLinks = document.querySelectorAll('a[href*="linkedin"]');
-      
-  //     const handleMouseEnter = () => handleHover(true);
-  //     const handleMouseLeave = () => handleHover(false);
-
-  //     linkedInLinks.forEach(link => {
-  //       link.addEventListener('mouseenter', handleMouseEnter);
-  //       link.addEventListener('mouseleave', handleMouseLeave);
-  //       link.style.cursor = 'none';
-  //       link.style.position = 'relative';
-  //       link.style.zIndex = '999'; // Lower than cursor's z-index
-  //     });
-
-  //     return () => {
-  //       linkedInLinks.forEach(link => {
-  //         link.removeEventListener('mouseenter', handleMouseEnter);
-  //         link.removeEventListener('mouseleave', handleMouseLeave);
-  //         link.style.cursor = '';
-  //         link.style.position = '';
-  //         link.style.zIndex = '';
-  //       });
-  //     };
-  //   }
-  // }, [isVisible, handleHover]);
-
   const positionCursor = (delta) => {
     let x = mousePosition.x;
     let y = mousePosition.y;
-    // console.log(x, y);
     dotsRef.current.forEach((dot, index, dots) => {
       let nextDot = dots[index + 1] || dots[0];
       dot.x = x;
@@ -157,7 +127,7 @@ const InkCursor = ({isRectHover}) => {
       
       dot.draw(delta);
       const isRectHovered = isRectHoverRef.current;
-      if (!isRectHovered && !idle || index <= sineDots) {
+      if (!isRectHovered && (!idle || index <= sineDots)) {
         const dx = (nextDot.x - dot.x) * 0.35;
         const dy = (nextDot.y - dot.y) * 0.35;
         x += dx;
@@ -210,7 +180,6 @@ const InkCursor = ({isRectHover}) => {
     );
   }
 
-  console.log("isRectHover", isRectHover);
   return (
     <>
       <div 

@@ -163,7 +163,6 @@ function App() {
     if (el) letterRefs.current.H = el;
   }, []);
 
-  console.log("isRectangleHovered", isRectangleHovered);
   return (
     <>
       <InkCursor isRectHover={isRectangleHovered} className={isRectangleHovered ? 'rectangle-hover' : ''} />
