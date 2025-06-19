@@ -219,6 +219,24 @@
   animation: none;
   pointer-events: none;
 }
+@keyframes modalZoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translate(
+      calc(var(--origin-x, 50vw) - 50%), 
+      calc(var(--origin-y, 50vh) - 50%)
+    );
+    transform-origin: center;
+    border-radius: 12px;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+    transform-origin: center;
+    border-radius: 12px;
+  }
+}
+
 .project-modal {
   position: relative;
   z-index: 1003;
@@ -232,16 +250,15 @@
   max-height: 85vh;
   overflow-y: auto;
   opacity: 0;
-  transform: scale(0.95);
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: scale(0.3);
+  transform-origin: center;
   will-change: transform, opacity;
   backdrop-filter: blur(10px);
+  pointer-events: auto;
 }
 
 .project-modal-overlay.visible .project-modal {
-  opacity: 1;
-  transform: scale(1);
-  transition-delay: 0.1s;
+  animation: modalZoomIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .project-modal-details {
