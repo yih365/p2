@@ -27,17 +27,26 @@ const ProjectModal = ({ project, onClose, originRect }) => {
           <div className="project-modal-details">
             {project.name && <h1 className="project-title">{project.name}</h1>}
             {project.description && <p className="project-caption">{project.description}</p>}
+            {project.tags && project.tags.length > 0 && (
+              <div className="project-tags">
+                {project.tags.map((tag, index) => (
+                  <span key={index} className="tag">{tag}</span>
+                ))}
+              </div>
+            )}
             {project.link && (
               <div className="project-actions">
-                <a 
-                  href={project.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="project-link"
-                  onClick={e => e.stopPropagation()}
-                >
-                  {getButtonText()}
-                </a>
+                <div className="button-borders">
+                  <a 
+                    href={project.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="project-link primary-button"
+                    onClick={e => e.stopPropagation()}
+                  >
+                    {getButtonText()}
+                  </a>
+                </div>
               </div>
             )}
           </div>
@@ -67,7 +76,8 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         link: 'https://www.aimmerse.app/',
         name: 'AImmerse',
         description: 'AI-Powered Immersive Experiences',
-        details: 'A platform that leverages AI to create immersive experiences. Built with React, Node.js, and Three.js. Features include real-time 3D rendering, AI-powered content generation, and interactive user interfaces.'
+        details: 'A platform that leverages AI to create immersive experiences. Built with React, Node.js, and Three.js. Features include real-time 3D rendering, AI-powered content generation, and interactive user interfaces.',
+        tags: ['Web']
       },
       {
         id: 1,
@@ -79,7 +89,8 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         link: 'https://arxiv.org/abs/2503.04103v1',
         name: 'VideOrigami',
         description: 'Compositional Structures for Human-AI Collaboration',
-        details: 'A research project exploring new paradigms for human-AI collaboration in video editing. Implements novel algorithms for content-aware video manipulation and composition.'
+        details: 'A research project exploring new paradigms for human-AI collaboration in video editing. Implements novel algorithms for content-aware video manipulation and composition.',
+        tags: ['HCI', 'Research', 'Web']
       },
       // {
       //   id: 2,
@@ -91,7 +102,8 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
       //   link: 'https://github.com/yih365/draw-refgen',
       //   name: 'Draw RefGen',
       //   description: 'Drawing tool using generated inspirations',
-      //   details: 'An innovative drawing tool that generates creative inspirations using AI'
+      //   details: 'An innovative drawing tool that generates creative inspirations using AI',
+      //   tags: []
       // },
       {
         id: 3,
@@ -103,6 +115,7 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         link: 'https://github.com/yih365/PomoReflect',
         name: 'PomoReflect',
         description: 'An updated Pomodoro IOS App',
+        tags: ['Mobile', 'iOS']
       }
     ];
   };
