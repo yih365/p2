@@ -1,31 +1,30 @@
 .rectangle-pattern {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  height: 764px; /* Increased height to accommodate additional padding */
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 40px;
-  /* padding: 80px 0; Reduced padding */
+  padding: 5rem 0 2rem; /* Increased top padding to 5rem */
   z-index: 1;
   pointer-events: auto;
   background: transparent;
   opacity: 0;
-  transform: translateY(100vh); /* Start one viewport height down */
+  transform: translateY(100%); /* Start one full height down */
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  margin-top: -40vh; /* Pull up by 40% of viewport height */
+  margin-top: -40%; /* Pull up by 40% of the container height */
 }
 
 .rectangle-pattern.visible {
   opacity: 1;
-  transform: translateY(60vh); /* Move up to show 40% of the container */
+  transform: translateY(40%); /* Move up to show 60% of the container */
 }
 
 .pattern-container {
   width: 85%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 3rem 0 2rem; /* Increased top padding to 3rem */
 }
 
 .pattern-row {
@@ -557,19 +556,106 @@
   }
 }
 
-/* Original responsive styles */
-@media (max-width: 768px) {
-  .pattern-container {
-    width: 90%;
+/* Responsive styles for different iPad models and orientations */
+
+/* iPad Pro 11" and 12.9" Landscape */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) {
+  .rectangle-pattern {
+    height: 800px; /* Adjusted for landscape layout */
+    margin-top: -25%;
+  }
+  
+  .rectangle-pattern.visible {
+    transform: translateY(25%);
   }
   
   .pattern-row {
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .pattern-rectangle {
+    width: 300px !important;
+    height: 250px !important;
+  }
+}
+
+/* iPad Portrait */
+@media (min-width: 769px) and (max-width: 1023px) and (orientation: portrait) {
+  .rectangle-pattern {
+    height: 1200px; /* Increased height for portrait orientation */
+    margin-top: -25%;
+  }
+  
+  .rectangle-pattern.visible {
+    transform: translateY(15%);
+  }
+  
+  .pattern-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .pattern-rectangle {
+    width: 80% !important;
+    height: 200px !important;
+    max-width: 500px !important;
+  }
+}
+
+/* Standard iPad Landscape */
+@media (min-width: 769px) and (max-width: 1023px) and (orientation: landscape) {
+  .rectangle-pattern {
+    height: 700px;
+    margin-top: -20%;
+  }
+  
+  .rectangle-pattern.visible {
+    transform: translateY(20%);
+  }
+  
+  .pattern-row {
+    justify-content: center;
     gap: 1rem;
     margin-bottom: 1rem;
   }
   
   .pattern-rectangle {
+    width: 250px !important;
+    height: 200px !important;
+  }
+}
+
+/* iPad Portrait and smaller devices */
+@media (max-width: 768px) {
+  .rectangle-pattern {
+    height: 950px; /* Static height for mobile: (150px * 5) + (1rem * 4) + 4rem */
+    margin-top: -30%; /* Less negative margin for mobile */
+  }
+  
+  .rectangle-pattern.visible {
+    transform: translateY(20%); /* Show more content on mobile */
+  }
+  
+  .pattern-container {
+    width: 90%;
+  }
+  
+  .pattern-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .pattern-rectangle {
+    width: 100% !important;
+    max-width: 400px !important;
     height: 150px !important;
+    margin: 0 auto 1rem !important;
   }
   
   .pattern-row {

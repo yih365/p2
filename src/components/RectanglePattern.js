@@ -108,7 +108,6 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         link: 'https://www.aimmerse.app/',
         name: 'AImmerse',
         description: 'AI-Powered Immersive Experiences',
-        details: 'A platform that leverages AI to create immersive experiences. Built with React, Node.js, and Three.js. Features include real-time 3D rendering, AI-powered content generation, and interactive user interfaces.',
         tags: ['Web']
       },
       {
@@ -121,7 +120,7 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         link: 'https://arxiv.org/abs/2503.04103v1',
         name: 'VideOrigami',
         description: 'Compositional Structures for Human-AI Collaboration',
-        details: 'A research project exploring new paradigms for human-AI collaboration in video editing. Implements novel algorithms for content-aware video manipulation and composition.',
+        details: 'Accepted at CHI 2025',
         tags: ['HCI', 'Research', 'Web']
       },
       {
@@ -133,32 +132,32 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         imageUrl: '/PomoReflect.png',
         link: 'https://github.com/yih365/PomoReflect',
         name: 'PomoReflect',
-        description: 'An updated Pomodoro IOS App',
+        description: 'Modern Pomodoro IOS App',
         tags: ['Mobile', 'iOS']
       },
-      {
-        id: 3,
-        width: '300px',
-        height: '300px',
-        color: '#FFFFFF',
-        hasImage: true,
-        imageUrl: '/chessstats.jpeg',
-        link: 'https://github.com/Code-Path-Project/ChessTracker',
-        name: 'ChessTracker',
-        description: 'Android Chess Tracker App',
-        details: 'An Android app that tracks chess games and provides insights into player performance.',
-        tags: ['Mobile', 'Android']
-      },
+      // {
+      //   id: 3,
+      //   width: '300px',
+      //   height: '300px',
+      //   color: '#FFFFFF',
+      //   hasImage: true,
+      //   imageUrl: '/chessstats.jpeg',
+      //   link: 'https://github.com/Code-Path-Project/ChessTracker',
+      //   name: 'ChessTracker',
+      //   description: 'Android Chess Tracker App',
+      //   details: 'An Android app that tracks chess games and provides insights into player performance.',
+      //   tags: ['Mobile', 'Android']
+      // },
       {
         id: 4,
         width: '300px',
         height: '300px',
         color: '#FFFFFF',
         hasImage: true,
-        imageUrl: '/inspreminder.jpeg',
+        imageUrl: '/inspreminder.png',
         link: 'https://github.com/yih365/InsRe/',
         name: 'Vision Vault',
-        description: 'Personal well-spring of inspirations',
+        description: 'Inspirations Vault iOS App',
         tags: ['Mobile', 'iOS']
       }
     ];
@@ -220,8 +219,8 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
 
   // Show rectangles when name has reached top left
   useEffect(() => {
-    // Show when scrolled past 50px (when name reaches top left)
-    const shouldShow = scrollY > 50;
+    // Show rectangles after initials have moved to corner (400px = 100px fade + 300px move)
+    const shouldShow = scrollY > 250;
     
     if (shouldShow && !isVisible) {
       setIsVisible(true);
