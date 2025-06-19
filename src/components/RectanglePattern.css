@@ -237,6 +237,19 @@
   }
 }
 
+@keyframes modalZoomOut {
+  0% {
+    opacity: 1;
+    transform: scale(1) translate(0, 0);
+    transform-origin: center;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.7);
+    transform-origin: center;
+  }
+}
+
 .project-modal {
   position: relative;
   z-index: 1003;
@@ -257,8 +270,81 @@
   pointer-events: auto;
 }
 
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1005;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.close-button:before,
+.close-button:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #333;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  left: 0;
+  top: 50%;
+  transform-origin: center;
+}
+
+.close-button:after {
+  transform: rotate(45deg);
+}
+
+.close-button:before {
+  transform: rotate(-45deg);
+}
+
+.close-button:not(.closing):hover,
+.close-button:not(.closing):focus {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+
+.close-button.closing {
+  animation: closeButtonShrink 0.3s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes closeButtonShrink {
+  0% {
+    transform: scale(1) rotate(0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(0.8) rotate(45deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(0) rotate(90deg);
+    opacity: 0;
+  }
+}
+
+.close-button:hover:before,
+.close-button:focus:before,
+.close-button:hover:after,
+.close-button:focus:after {
+  background-color: #000;
+}
+
 .project-modal-overlay.visible .project-modal {
   animation: modalZoomIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.project-modal-overlay.closing .project-modal {
+  animation: modalZoomOut 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
 }
 
 .project-modal-details {

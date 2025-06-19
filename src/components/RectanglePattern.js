@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import './RectanglePattern.css';
 
 const ProjectModal = ({ project, onClose, originRect }) => {
+  const [isClosing, setIsClosing] = useState(false);
+  const modalRef = useRef(null);
+
   if (!project) return null;
 
   // Determine button text based on project name
@@ -11,9 +14,32 @@ const ProjectModal = ({ project, onClose, originRect }) => {
     return 'View Project';
   };
 
+  const handleClose = (e) => {
+    e.stopPropagation();
+    if (isClosing) return;
+    
+    setIsClosing(true);
+    // Wait for the animation to complete before calling onClose
+    setTimeout(() => {
+      onClose();
+      // Reset the closing state after the modal is fully closed
+      setTimeout(() => setIsClosing(false), 0);
+    }, 300); // Match this with the CSS animation duration
+  };
+
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      handleClose(e);
+    }
+  };
+
   return (
-    <div className={`project-modal-overlay ${project ? 'visible' : ''}`} onClick={onClose}>
+    <div 
+      className={`project-modal-overlay ${project ? 'visible' : ''} ${isClosing ? 'closing' : ''}`}
+      onClick={handleOverlayClick}
+    >
       <div 
+        ref={modalRef}
         className="project-modal" 
         onClick={e => e.stopPropagation()}
         style={originRect ? {
@@ -23,6 +49,12 @@ const ProjectModal = ({ project, onClose, originRect }) => {
           '--origin-height': `${originRect.height}px`
         } : {}}
       >
+        <button 
+          className={`close-button ${isClosing ? 'closing' : ''}`} 
+          onClick={handleClose} 
+          aria-label="Close"
+          disabled={isClosing}
+        ></button>
         <div className="project-modal-content">
           <div className="project-modal-details">
             {project.name && <h1 className="project-title">{project.name}</h1>}
