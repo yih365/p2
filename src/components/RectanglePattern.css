@@ -5,7 +5,8 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 80px 0; /* Reduced padding */
+  padding-top: 40px;
+  /* padding: 80px 0; Reduced padding */
   z-index: 1;
   pointer-events: auto;
   background: transparent;
@@ -42,7 +43,7 @@
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   flex-grow: 1;
   min-width: 150px;
-  max-width: 100%;
+  max-width: 500px;
   position: relative !important;
   overflow: visible !important;
   cursor: pointer;

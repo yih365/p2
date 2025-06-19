@@ -80,6 +80,29 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         name: 'VideOrigami',
         description: 'Compositional Structures for Human-AI Collaboration',
         details: 'A research project exploring new paradigms for human-AI collaboration in video editing. Implements novel algorithms for content-aware video manipulation and composition.'
+      },
+      // {
+      //   id: 2,
+      //   width: '300px',
+      //   height: '300px',
+      //   color: '#FFFFFF',
+      //   hasImage: true,
+      //   imageUrl: '/drawrefgen.png',
+      //   link: 'https://github.com/yih365/draw-refgen',
+      //   name: 'Draw RefGen',
+      //   description: 'Drawing tool using generated inspirations',
+      //   details: 'An innovative drawing tool that generates creative inspirations using AI'
+      // },
+      {
+        id: 3,
+        width: '400px',
+        height: '300px',
+        color: '#FFFFFF',
+        hasImage: true,
+        imageUrl: '/PomoReflect.png',
+        link: 'https://github.com/yih365/PomoReflect',
+        name: 'PomoReflect',
+        description: 'An updated Pomodoro IOS App',
       }
     ];
   };
@@ -114,12 +137,15 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
     setOriginRect(null);
   };
 
-  // Group rectangles into rows of max 3
-  const groupIntoRows = (items, itemsPerRow) => {
+  // Group rectangles into rows with different max items per row
+  const groupIntoRows = (items) => {
     const rows = [];
-    for (let i = 0; i < items.length; i += itemsPerRow) {
-      rows.push(items.slice(i, i + itemsPerRow));
-    }
+    // First row: max 2 items
+    rows.push(items.slice(0, 2));
+    // Second row: max 1 item
+    rows.push(items.slice(2, 3));
+    // Third row: max 3 items
+    rows.push(items.slice(3, 6));
     return rows;
   };
 
