@@ -124,22 +124,9 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         details: 'A research project exploring new paradigms for human-AI collaboration in video editing. Implements novel algorithms for content-aware video manipulation and composition.',
         tags: ['HCI', 'Research', 'Web']
       },
-      // {
-      //   id: 2,
-      //   width: '300px',
-      //   height: '300px',
-      //   color: '#FFFFFF',
-      //   hasImage: true,
-      //   imageUrl: '/drawrefgen.png',
-      //   link: 'https://github.com/yih365/draw-refgen',
-      //   name: 'Draw RefGen',
-      //   description: 'Drawing tool using generated inspirations',
-      //   details: 'An innovative drawing tool that generates creative inspirations using AI',
-      //   tags: []
-      // },
       {
-        id: 3,
-        width: '400px',
+        id: 2,
+        width: '300px',
         height: '300px',
         color: '#FFFFFF',
         hasImage: true,
@@ -147,6 +134,31 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         link: 'https://github.com/yih365/PomoReflect',
         name: 'PomoReflect',
         description: 'An updated Pomodoro IOS App',
+        tags: ['Mobile', 'iOS']
+      },
+      {
+        id: 3,
+        width: '300px',
+        height: '300px',
+        color: '#FFFFFF',
+        hasImage: true,
+        imageUrl: '/chessstats.jpeg',
+        link: 'https://github.com/Code-Path-Project/ChessTracker',
+        name: 'ChessTracker',
+        description: 'Android Chess Tracker App',
+        details: 'An Android app that tracks chess games and provides insights into player performance.',
+        tags: ['Mobile', 'Android']
+      },
+      {
+        id: 4,
+        width: '300px',
+        height: '300px',
+        color: '#FFFFFF',
+        hasImage: true,
+        imageUrl: '/inspreminder.jpeg',
+        link: 'https://github.com/yih365/InsRe/',
+        name: 'Vision Vault',
+        description: 'Personal well-spring of inspirations',
         tags: ['Mobile', 'iOS']
       }
     ];
@@ -187,10 +199,8 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
     const rows = [];
     // First row: max 2 items
     rows.push(items.slice(0, 2));
-    // Second row: max 1 item
-    rows.push(items.slice(2, 3));
-    // Third row: max 3 items
-    rows.push(items.slice(3, 6));
+    // Second row: max 3 items
+    rows.push(items.slice(2, 5));
     return rows;
   };
 
