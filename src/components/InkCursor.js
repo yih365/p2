@@ -127,7 +127,8 @@ const InkCursor = ({isRectHover}) => {
       
       dot.draw(delta);
       const isRectHovered = isRectHoverRef.current;
-      if (!isRectHovered && (!idle || index <= sineDots)) {
+      // if (!isRectHovered && (!idle || index <= sineDots)) {
+      if ((!idle || index <= sineDots)) {
         const dx = (nextDot.x - dot.x) * 0.35;
         const dy = (nextDot.y - dot.y) * 0.35;
         x += dx;
