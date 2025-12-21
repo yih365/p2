@@ -105,7 +105,7 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         color: '#FFFFFF',
         hasImage: true,
         imageUrl: 'https://uploadthingy.s3.us-west-1.amazonaws.com/4PuzCWsTepyK4J4wSwcU4k/Gemini_Generated_Image_xgwo5uxgwo5uxgwo.png',
-        link: 'https://www.aimmerse.app/',
+        link: 'https://yih365.github.io/aimmerse-artifacts/',
         name: 'AImmerse',
         description: 'AI-Powered Immersive Experiences',
         tags: ['Web']
@@ -159,6 +159,17 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         name: 'Vision Vault',
         description: 'Inspirations Vault iOS App',
         tags: ['Mobile', 'iOS']
+      },
+      {
+        id: 5,
+        width: '300px',
+        height: '300px',
+        color: '#FFFFFF',
+        hasImage: false,
+        link: 'https://github.com/yih365/zoomjournal',
+        name: 'ZoomJournal',
+        description: 'Journaling app with semantic zoom',
+        tags: ['Web']
       }
     ];
   };
