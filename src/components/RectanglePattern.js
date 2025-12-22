@@ -160,17 +160,17 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         description: 'Inspirations Vault iOS App',
         tags: ['Mobile', 'iOS']
       },
-      {
-        id: 5,
-        width: '300px',
-        height: '300px',
-        color: '#FFFFFF',
-        hasImage: false,
-        link: 'https://github.com/yih365/zoomjournal',
-        name: 'ZoomJournal',
-        description: 'Journaling app with semantic zoom',
-        tags: ['Web']
-      }
+      // {
+      //   id: 5,
+      //   width: '300px',
+      //   height: '300px',
+      //   color: '#FFFFFF',
+      //   hasImage: false,
+      //   link: 'https://github.com/yih365/zoomjournal',
+      //   name: 'ZoomJournal',
+      //   description: 'Journaling app with semantic zoom',
+      //   tags: ['Web']
+      // }
     ];
   };
 
