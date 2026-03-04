@@ -17,7 +17,7 @@ const ProjectModal = ({ project, onClose, originRect }) => {
   const handleClose = (e) => {
     e.stopPropagation();
     if (isClosing) return;
-    
+
     setIsClosing(true);
     // Wait for the animation to complete before calling onClose
     setTimeout(() => {
@@ -34,13 +34,13 @@ const ProjectModal = ({ project, onClose, originRect }) => {
   };
 
   return (
-    <div 
+    <div
       className={`project-modal-overlay ${project ? 'visible' : ''} ${isClosing ? 'closing' : ''}`}
       onClick={handleOverlayClick}
     >
-      <div 
+      <div
         ref={modalRef}
-        className="project-modal" 
+        className="project-modal"
         onClick={e => e.stopPropagation()}
         style={originRect ? {
           '--origin-x': `${originRect.left + originRect.width / 2}px`,
@@ -49,9 +49,9 @@ const ProjectModal = ({ project, onClose, originRect }) => {
           '--origin-height': `${originRect.height}px`
         } : {}}
       >
-        <button 
-          className={`close-button ${isClosing ? 'closing' : ''}`} 
-          onClick={handleClose} 
+        <button
+          className={`close-button ${isClosing ? 'closing' : ''}`}
+          onClick={handleClose}
           aria-label="Close"
           disabled={isClosing}
         ></button>
@@ -69,10 +69,10 @@ const ProjectModal = ({ project, onClose, originRect }) => {
             {project.link && (
               <div className="project-actions">
                 <div className="button-borders">
-                  <a 
-                    href={project.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="project-link primary-button"
                     onClick={e => e.stopPropagation()}
                   >
@@ -94,7 +94,7 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
   const [originRect, setOriginRect] = useState(null);
   const containerRef = useRef(null);
   const rectRefs = useRef({});
-  
+
   // Generate rectangles with project details
   const generateRectangles = () => {
     return [
@@ -123,18 +123,6 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
         details: 'Accepted at CHI 2025',
         tags: ['HCI', 'Research', 'Web']
       },
-      {
-        id: 2,
-        width: '300px',
-        height: '300px',
-        color: '#FFFFFF',
-        hasImage: true,
-        imageUrl: '/PomoReflect.png',
-        link: 'https://github.com/yih365/PomoReflect',
-        name: 'PomoReflect',
-        description: 'Modern Pomodoro IOS App',
-        tags: ['Mobile', 'iOS']
-      },
       // {
       //   id: 3,
       //   width: '300px',
@@ -149,7 +137,7 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
       //   tags: ['Mobile', 'Android']
       // },
       {
-        id: 4,
+        id: 2,
         width: '300px',
         height: '300px',
         color: '#FFFFFF',
@@ -171,11 +159,35 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
       //   description: 'Journaling app with semantic zoom',
       //   tags: ['Web']
       // }
+      {
+        id: 3,
+        width: '300px',
+        height: '300px',
+        color: '#FFFFFF',
+        hasImage: true,
+        imageUrl: '/knowgraph.png',
+        link: 'https://knowgraph-two.vercel.app/',
+        name: 'KnowGraph',
+        description: 'Generate a growing knowledge graph for any topic',
+        tags: ['Web']
+      },
+      {
+        id: 4,
+        width: '300px',
+        height: '300px',
+        color: '#FFFFFF',
+        hasImage: true,
+        imageUrl: '/PomoReflect.png',
+        link: 'https://github.com/yih365/PomoReflect',
+        name: 'PomoReflect',
+        description: 'Modern Pomodoro IOS App',
+        tags: ['Mobile', 'iOS']
+      },
     ];
   };
 
   const [rectangles] = useState(generateRectangles());
-  
+
   const handleProjectClick = (e, project) => {
     e.preventDefault();
     e.stopPropagation();
@@ -198,7 +210,7 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
       setSelectedProject(project);
     }
   };
-  
+
   const closeModal = () => {
     setSelectedProject(null);
     setOriginRect(null);
@@ -215,7 +227,7 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
   };
 
   const rows = groupIntoRows(rectangles, 3);
-  
+
   // Add scroll margin to prevent content from being hidden behind fixed header
   useEffect(() => {
     const style = document.createElement('style');
@@ -232,7 +244,7 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
   useEffect(() => {
     // Show rectangles after initials have moved to corner (400px = 100px fade + 300px move)
     const shouldShow = scrollY > 250;
-    
+
     if (shouldShow && !isVisible) {
       setIsVisible(true);
     } else if (!shouldShow && isVisible) {
@@ -243,46 +255,46 @@ const RectanglePattern = ({ scrollY, onRectangleHover }) => {
   return (
     <>
       {selectedProject && (
-        <ProjectModal 
-          project={selectedProject} 
-          onClose={closeModal} 
+        <ProjectModal
+          project={selectedProject}
+          onClose={closeModal}
           originRect={originRect}
         />
       )}
       <div className={`rectangle-pattern ${isVisible ? 'visible' : ''}`} ref={containerRef}>
-      <div className="pattern-container">
-        {rows.map((row, rowIndex) => (
-          <div key={rowIndex} className="pattern-row">
-            {row.map(rect => (
-              <div
-                key={rect.id}
-                ref={el => rectRefs.current[rect.id] = el}
-                className="pattern-rectangle"
-                onMouseEnter={() => {onRectangleHover && onRectangleHover(true); console.log('Rectangle hover');}}
-                onMouseLeave={() => {onRectangleHover && onRectangleHover(false); console.log("rectangle unhovered")}}
-                style={{
-                  width: rect.width,
-                  height: rect.height,
-                  backgroundColor: rect.color,
-                  cursor: 'none', // Ensure default cursor is hidden
-                  ...(rect.hasImage && {
-                    backgroundImage: `url(${rect.imageUrl})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center'
-                  })
-                }}
-                onClick={(e) => handleProjectClick(e, rect)}
-              >
-                <div className="rectangle-overlay">
-                  <h3 className="project-name">{rect.name}</h3>
-                  <p className="project-description">{rect.description}</p>
+        <div className="pattern-container">
+          {rows.map((row, rowIndex) => (
+            <div key={rowIndex} className="pattern-row">
+              {row.map(rect => (
+                <div
+                  key={rect.id}
+                  ref={el => rectRefs.current[rect.id] = el}
+                  className="pattern-rectangle"
+                  onMouseEnter={() => { onRectangleHover && onRectangleHover(true); console.log('Rectangle hover'); }}
+                  onMouseLeave={() => { onRectangleHover && onRectangleHover(false); console.log("rectangle unhovered") }}
+                  style={{
+                    width: rect.width,
+                    height: rect.height,
+                    backgroundColor: rect.color,
+                    cursor: 'none', // Ensure default cursor is hidden
+                    ...(rect.hasImage && {
+                      backgroundImage: `url(${rect.imageUrl})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    })
+                  }}
+                  onClick={(e) => handleProjectClick(e, rect)}
+                >
+                  <div className="rectangle-overlay">
+                    <h3 className="project-name">{rect.name}</h3>
+                    <p className="project-description">{rect.description}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        ))}
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
     </>
   );
 };

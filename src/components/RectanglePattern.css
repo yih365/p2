@@ -1,30 +1,36 @@
 .rectangle-pattern {
   position: relative;
   width: 100%;
-  height: 764px; /* Increased height to accommodate additional padding */
+  height: 764px;
+  /* Increased height to accommodate additional padding */
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 5rem 0 2rem; /* Increased top padding to 5rem */
+  padding: 5rem 0 2rem;
+  /* Increased top padding to 5rem */
   z-index: 1;
   pointer-events: auto;
   background: transparent;
   opacity: 0;
-  transform: translateY(100%); /* Start one full height down */
+  transform: translateY(100%);
+  /* Start one full height down */
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  margin-top: -40%; /* Pull up by 40% of the container height */
+  margin-top: -40%;
+  /* Pull up by 40% of the container height */
 }
 
 .rectangle-pattern.visible {
   opacity: 1;
-  transform: translateY(40%); /* Move up to show 60% of the container */
+  transform: translateY(40%);
+  /* Move up to show 60% of the container */
 }
 
 .pattern-container {
   width: 85%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 0 2rem; /* Increased top padding to 3rem */
+  padding: 3rem 0 2rem;
+  /* Increased top padding to 3rem */
 }
 
 .pattern-row {
@@ -43,15 +49,13 @@
   flex-grow: 1;
   min-width: 150px;
   max-width: 500px;
-  position: relative !important;
-  overflow: visible !important;
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
-  border: 2px solid blue !important; /* Add border for visibility */
   transform: translateZ(0);
   z-index: 1;
-  /* Ensure the container is a stacking context */
   isolation: isolate;
-  background-color: rgba(0, 0, 255, 0.1) !important; /* Light blue background for visibility */
+  background-color: transparent;
 }
 
 .pattern-rectangle::before {
@@ -83,38 +87,39 @@
 }
 
 /* Make cursor larger on hover */
-.pattern-rectangle:hover ~ .ink-cursor {
+.pattern-rectangle:hover~.ink-cursor {
   transform: scale(1.5);
 }
 
 /* Rectangle overlay styles */
-/* Debug styles - make overlay always visible for testing */
 .rectangle-overlay {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  background: rgba(255, 0, 0, 0.5) !important; /* Bright red background for visibility */
-  color: white !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 20px !important;
-  text-align: center !important;
-  opacity: 1 !important; /* Force visible */
-  transform: none !important;
-  pointer-events: auto !important;
-  z-index: 9999 !important; /* Very high z-index */
-  border: 2px solid yellow !important; /* Add border for visibility */
-  box-sizing: border-box !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.85);
+  /* Sophisticated dark slate with high opacity */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  pointer-events: none;
+  z-index: 9;
+  backdrop-filter: blur(4px);
+  border-radius: 12px;
 }
 
 .pattern-rectangle:hover .rectangle-overlay {
-  opacity: 1 !important; /* Force override any other styles */
-  transform: translateY(0) !important;
-  visibility: visible !important;
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
 }
 
 .project-name {
@@ -147,8 +152,10 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
-    opacity: 0.9; /* More visible for content */
+    opacity: 0.9;
+    /* More visible for content */
     transform: translateY(0);
   }
 }
@@ -156,8 +163,13 @@
 /* Responsive adjustments */
 /* Project Modal Styles */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .project-modal-overlay {
@@ -190,13 +202,12 @@
   from {
     width: var(--origin-width, 300px);
     height: var(--origin-height, 300px);
-    transform: translate(
-      calc(var(--origin-x, 50vw) - var(--origin-width, 300px) / 2 - 50vw),
-      calc(var(--origin-y, 50vh) - var(--origin-height, 300px) / 2 - 50vh)
-    );
+    transform: translate(calc(var(--origin-x, 50vw) - var(--origin-width, 300px) / 2 - 50vw),
+        calc(var(--origin-y, 50vh) - var(--origin-height, 300px) / 2 - 50vh));
     border-radius: 12px;
     opacity: 0;
   }
+
   to {
     width: 100%;
     height: auto;
@@ -207,8 +218,15 @@
 }
 
 @keyframes modalContentFadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .pattern-rectangle.expanding {
@@ -218,16 +236,16 @@
   animation: none;
   pointer-events: none;
 }
+
 @keyframes modalZoomIn {
   0% {
     opacity: 0;
-    transform: scale(0.3) translate(
-      calc(var(--origin-x, 50vw) - 50%), 
-      calc(var(--origin-y, 50vh) - 50%)
-    );
+    transform: scale(0.3) translate(calc(var(--origin-x, 50vw) - 50%),
+        calc(var(--origin-y, 50vh) - 50%));
     transform-origin: center;
     border-radius: 12px;
   }
+
   100% {
     opacity: 1;
     transform: scale(1) translate(0, 0);
@@ -242,6 +260,7 @@
     transform: scale(1) translate(0, 0);
     transform-origin: center;
   }
+
   100% {
     opacity: 0;
     transform: scale(0.7);
@@ -321,10 +340,12 @@
     transform: scale(1) rotate(0);
     opacity: 0.7;
   }
+
   50% {
     transform: scale(0.8) rotate(45deg);
     opacity: 0.5;
   }
+
   100% {
     transform: scale(0) rotate(90deg);
     opacity: 0;
@@ -382,8 +403,10 @@
   font-weight: 400;
   line-height: 1.5;
   position: relative;
-  z-index: 1; /* Ensure text is above any background elements but below cursor */
-  pointer-events: none; /* Allow cursor to interact with elements below */
+  z-index: 1;
+  /* Ensure text is above any background elements but below cursor */
+  pointer-events: none;
+  /* Allow cursor to interact with elements below */
 }
 
 .project-tags {
@@ -527,7 +550,7 @@
   .project-title {
     font-size: 2rem;
   }
-  
+
   .project-caption {
     font-size: 1.1rem;
   }
@@ -538,19 +561,19 @@
     width: 95%;
     max-height: 90vh;
   }
-  
+
   .project-modal-content {
     flex-direction: column;
   }
-  
+
   .project-modal-image {
     height: 200px;
   }
-  
+
   .project-modal-details {
     padding: 1.5rem;
   }
-  
+
   .project-modal-details h2 {
     font-size: 1.5rem;
   }
@@ -561,20 +584,21 @@
 /* iPad Pro 11" and 12.9" Landscape */
 @media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) {
   .rectangle-pattern {
-    height: 800px; /* Adjusted for landscape layout */
+    height: 800px;
+    /* Adjusted for landscape layout */
     margin-top: -25%;
   }
-  
+
   .rectangle-pattern.visible {
     transform: translateY(25%);
   }
-  
+
   .pattern-row {
     justify-content: center;
     gap: 1.5rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .pattern-rectangle {
     width: 300px !important;
     height: 250px !important;
@@ -584,21 +608,22 @@
 /* iPad Portrait */
 @media (min-width: 769px) and (max-width: 1023px) and (orientation: portrait) {
   .rectangle-pattern {
-    height: 1200px; /* Increased height for portrait orientation */
+    height: 1200px;
+    /* Increased height for portrait orientation */
     margin-top: -25%;
   }
-  
+
   .rectangle-pattern.visible {
     transform: translateY(15%);
   }
-  
+
   .pattern-row {
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .pattern-rectangle {
     width: 80% !important;
     height: 200px !important;
@@ -612,17 +637,17 @@
     height: 700px;
     margin-top: -20%;
   }
-  
+
   .rectangle-pattern.visible {
     transform: translateY(20%);
   }
-  
+
   .pattern-row {
     justify-content: center;
     gap: 1rem;
     margin-bottom: 1rem;
   }
-  
+
   .pattern-rectangle {
     width: 250px !important;
     height: 200px !important;
@@ -632,32 +657,35 @@
 /* iPad Portrait and smaller devices */
 @media (max-width: 768px) {
   .rectangle-pattern {
-    height: 950px; /* Static height for mobile: (150px * 5) + (1rem * 4) + 4rem */
-    margin-top: -30%; /* Less negative margin for mobile */
+    height: 950px;
+    /* Static height for mobile: (150px * 5) + (1rem * 4) + 4rem */
+    margin-top: -30%;
+    /* Less negative margin for mobile */
   }
-  
+
   .rectangle-pattern.visible {
-    transform: translateY(20%); /* Show more content on mobile */
+    transform: translateY(20%);
+    /* Show more content on mobile */
   }
-  
+
   .pattern-container {
     width: 90%;
   }
-  
+
   .pattern-row {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
     margin-bottom: 1rem;
   }
-  
+
   .pattern-rectangle {
     width: 100% !important;
     max-width: 400px !important;
     height: 150px !important;
     margin: 0 auto 1rem !important;
   }
-  
+
   .pattern-row {
     margin-bottom: 1.5rem;
   }
