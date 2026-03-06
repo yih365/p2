@@ -14,9 +14,9 @@ function App() {
 
   const [center, setCenter] = useState({ x: 0, y: 0 });
   const [letterWidths, setLetterWidths] = useState({ Y: 0, H: 0 });
-  const [letterPositions, setLetterPositions] = useState({ 
-    Y: { x: 0, y: 0 }, 
-    H: { x: 0, y: 0 } 
+  const [letterPositions, setLetterPositions] = useState({
+    Y: { x: 0, y: 0 },
+    H: { x: 0, y: 0 }
   });
   const canvasRef = useRef(null);
   const nameRef = useRef(null);
@@ -34,12 +34,12 @@ function App() {
     if (nameRef.current) {
       const computedStyle = window.getComputedStyle(nameRef.current);
       const font = `${computedStyle.fontWeight} ${computedStyle.fontSize} ${computedStyle.fontFamily}`;
-      
+
       setLetterWidths({
         Y: measureText('Y', font),
         H: measureText('H', font)
       });
-      
+
       console.log('Letter widths:', {
         'Y': measureText('Y', font),
         'H': measureText('H', font)
@@ -60,7 +60,7 @@ function App() {
 
     // Update on window resize
     window.addEventListener('resize', updateCenter);
-    
+
     // Clean up
     return () => window.removeEventListener('resize', updateCenter);
   }, []);
@@ -69,7 +69,7 @@ function App() {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setScrollY(scrollPosition);
-      
+
       // Toggle scrolled class on body
       if (scrollPosition > 100) {
         document.body.classList.add('scrolled');
@@ -85,34 +85,32 @@ function App() {
   // Calculate scroll progress for smoother transitions
   // Phase 1: Fade out non-initial letters (0-100px)
   const fadeOutProgress = Math.min(Math.max(scrollY / 100, 0), 1);
-  
+
   // Phase 2: Move initials together (100-400px)
-  const moveTogetherProgress = Math.min(Math.max((scrollY - 100) / 300, 0), 1);
-  
+
   const moveToCornerTime = 150;
   const moveToCornerPos = 250;
-  const moveToCornerProgress = Math.min(Math.max((scrollY - moveToCornerPos) / moveToCornerTime, 0), 1);
-  
+
   const isScrolled = scrollY > 100;
   const shouldBeInCorner = scrollY > moveToCornerPos;
 
   // Update letter positions when they change
   const updateLetterPositions = useCallback(() => {
     if (!letterRefs.current.Y || !letterRefs.current.H) return;
-    
+
     const yRect = letterRefs.current.Y.getBoundingClientRect();
     const hRect = letterRefs.current.H.getBoundingClientRect();
-    
+
     const newYPos = {
       x: yRect.left + window.scrollX + (yRect.width / 2),
       y: yRect.top + window.scrollY + (yRect.height / 2)
     };
-    
+
     const newHPos = {
       x: hRect.left + window.scrollX + (hRect.width / 2),
       y: hRect.top + window.scrollY + (hRect.height / 2)
     };
-    
+
     // Only update if positions changed significantly (more than 0.5px)
     if (
       Math.abs(newYPos.x - (letterPositions.Y?.x || 0)) > 0.5 ||
@@ -126,24 +124,24 @@ function App() {
       });
     }
   }, [letterPositions]);
-  
+
   // Update positions on scroll and resize with debounce
   useEffect(() => {
     let animationFrameId;
-    
+
     const handleUpdate = () => {
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
       animationFrameId = requestAnimationFrame(updateLetterPositions);
     };
-    
+
     // Initial update
     const timer = setTimeout(updateLetterPositions, 100);
-    
+
     window.addEventListener('scroll', handleUpdate, { passive: true });
     window.addEventListener('resize', handleUpdate);
-    
+
     return () => {
       clearTimeout(timer);
       window.removeEventListener('scroll', handleUpdate);
@@ -153,12 +151,12 @@ function App() {
       }
     };
   }, [updateLetterPositions]);
-  
+
   // Set up refs
   const setYRef = useCallback((el) => {
     if (el) letterRefs.current.Y = el;
   }, []);
-  
+
   const setHRef = useCallback((el) => {
     if (el) letterRefs.current.H = el;
   }, []);
@@ -167,7 +165,7 @@ function App() {
     <>
       <InkCursor isRectHover={isRectangleHovered} className={isRectangleHovered ? 'rectangle-hover' : ''} />
       {/* Scroll indicator */}
-      <div 
+      <div
         className={`scroll-indicator ${scrollY > 150 ? 'hidden' : ''} ${scrollY > moveToCornerPos ? 'none' : ''}`}
         style={{
           position: 'fixed',
@@ -190,7 +188,7 @@ function App() {
       <canvas ref={canvasRef} style={{ display: 'none' }} />
       <div className="app">
         <div className="content">
-          <h1 
+          <h1
             ref={nameRef}
             className={`name ${isScrolled ? 'scrolled' : ''} ${shouldBeInCorner ? 'in-corner' : ''}`}
           >
@@ -204,8 +202,8 @@ function App() {
                     if (!isFirstLetter) {
                       // Non-initial letters: fade out with scale
                       return (
-                        <span 
-                          key={letterIndex} 
+                        <span
+                          key={letterIndex}
                           className={`letter ${!shouldShow && !shouldBeInCorner ? 'hidden' : ''} ${shouldBeInCorner ? 'none' : ''}`}
                           style={{
                             opacity: 1 - fadeOutProgress,
@@ -220,14 +218,11 @@ function App() {
                         </span>
                       );
                     }
-                    
+
                     // For initial letters: move together based on scroll
-                    const finalSpacing = 2; // Final spacing in the corner
-                    const direction = wordIndex === 0 ? -1 : 1;
                     let translateX = 0;
                     let translateY = 0;
-                    let fontSize = '5rem';
-                    
+
                     // Handle initial letters (Y and H)
                     if (isFirstLetter) {
                       const isY = wordIndex === 0;
@@ -239,14 +234,14 @@ function App() {
                       // Phase 1: Stay in place while other letters fade out (0-100px)
                       // Phase 2: Move towards center (100-400px)
                       if (scrollY > 100 && scrollY < moveToCornerPos) {
-                        firstTargetPosition = center.x + letterWidth*2;
-                        
+                        firstTargetPosition = center.x + letterWidth * 2;
+
                         // Smooth transition between scroll positions
                         const scrollProgress = Math.min((scrollY - 100) / 140, 1); // Reduced from 300 to 200 for faster transition
                         translateX = (firstTargetPosition - currentPosition.x) * scrollProgress;
                       }
-                      
-                      if (scrollY > moveToCornerPos && scrollY < moveToCornerPos+moveToCornerTime) {
+
+                      if (scrollY > moveToCornerPos && scrollY < moveToCornerPos + moveToCornerTime) {
                         // const targetPosition = letterWidth;
                         // translateX += (targetPosition - currentPosition.x) * moveToCornerProgress;
                         // const targetPosY = letterWidth;
@@ -258,7 +253,7 @@ function App() {
                         // console.log('fontSize', fontSize);
                       }
                     }
-                    
+
                     const letterStyle = {
                       transform: `translate(${translateX}px, ${translateY}px)`,
                       transition: 'transform 0.8s cubic-bezier(0.22, 1, 0.36, 1)',
@@ -268,14 +263,14 @@ function App() {
                       whiteSpace: 'pre',
                       // fontSize: fontSize,
                     };
-                    
+
                     // Set ref for this letter if it's Y or H
                     const letter = isFirstLetter ? (wordIndex === 0 ? 'Y' : 'H') : null;
-                    
+
                     return (
-                      <span 
+                      <span
                         ref={isFirstLetter ? (wordIndex === 0 ? setYRef : setHRef) : null}
-                        key={letterIndex} 
+                        key={letterIndex}
                         className={`letter ${!shouldShow ? 'hidden' : ''} ${isFirstLetter ? 'first-letter' : ''}`}
                         style={{
                           ...letterStyle,
@@ -298,9 +293,9 @@ function App() {
           <div className="scroll-indicator">
             <div className="scroll-line"></div>
           </div>
-          <RectanglePattern 
-            scrollY={scrollY} 
-            onRectangleHover={setIsRectangleHovered} 
+          <RectanglePattern
+            scrollY={scrollY}
+            onRectangleHover={setIsRectangleHovered}
           />
         </div>
       </div>
